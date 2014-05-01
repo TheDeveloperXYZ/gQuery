@@ -24,7 +24,7 @@ var myElement = $(".myelement");
 var myElement = $("#myelement");
 ```
 
-For more examples, follow - http://www.w3.org/TR/selectors-api/
+For more examples, follow - http://www.w3.org/TR/selectors-api/#examples0
 
 ### Class manipulating
 
@@ -45,6 +45,45 @@ myElement.addClass("addthisclass").addClass("addthistoo"); // Multiple functions
 
 // Toggle class
 myElement.toggleClass("togglethis");
+```
+
+### Cosmetics
+
+```javascript
+var myElement = $(".myelement");
+
+// Show element(s)
+myElement.show();
+
+// Hide element(s)
+myElement.hide();
+
+// Remove element(s) completely
+myElement.remove();
+
+// Change css
+myElement.css("background-color: #FAFAFA; color: #333;");
+```
+
+### Events
+
+```javascript
+var myElement = $(".myelement");
+
+// Add event
+myElement.on("click", function() {
+   // Do something
+});
+
+// Remove event
+myElement.off("click", function() {
+   // Do something
+});
+
+// Click shortcut
+myElement.click(function() {
+   // Do something when clicked
+});
 ```
 
 # Footnotes

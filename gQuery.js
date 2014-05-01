@@ -326,6 +326,22 @@
 
             return this;
         },
+        
+        /*
+        @function css - Changes styles
+        @param {String} cssStyles - List of styles for changing.
+        */
+        css: function (cssStyles)
+        {
+            if (cssStyles)
+            {
+                this.each(function()
+                {
+                    this.style.cssText = cssStyles;
+                });
+            }
+            return this;
+        },
 
         /*
         @function attr - Get the value of an attribute for the first element in the set of matched elements or set one or more attributes for every matched element.
