@@ -487,17 +487,7 @@
     
     gQuery.ajax = function( settings )
     {
-        var client = new XMLHttpRequest(),
-            contentTypes = 
-            {
-                "application/json": "json",
-                "application/x-javascript": "javascript",
-                "text/javascript": "javascript",
-                "text/css": "css",
-                "text/xml": "xml",
-                "text/html": "html",
-                "text/plain": "text"
-            };
+        var client = new XMLHttpRequest();
         
         if( !client )
         {
@@ -557,26 +547,21 @@
         {
             if (client.readyState === 4) 
             {
-                var result,
-                    dataType;
+                var result;
                 
                 if (client.status >= 200 && client.status < 400)
                 {
                     var contentType = client.getResponseHeader("content-type");
                     
-                    dataType = contentTypes[contentType] || "text";
-                    
                     result = client.responseText;
-                    
-                    console.log( result );
-                    
+
                     try
                     {
-                        if (dataType === "json")
+                        if (contentType && contentType.match(/json/))
                         {
                             result = JSON.parse(result);
-                        } 
-                        else if (dataType === "xml")
+                        }
+                        else if (contentType && contentType.match(/xml/))
                         {
                             result = utilities.parseXML(result);
                         }
