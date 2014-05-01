@@ -1,5 +1,27 @@
-gQuery
-=======
+#gQuery
+
+## Setup
+
+First you have to download gQuery.js for development or gQuery-min.js for common usage.
+
+### gQuery.js
+
+The next step is to include the `gQuery.js` or `gQuery-min.js` file in your application. For example:
+
+    <script src="http://example.com/gQuery.js"></script>
+
+## Usage
+
+Here we are gonna show how you can use it.
+
+### Initialize elements
+
+```javascript
+// Selecting class(es):
+var myelement = $(".myelement");
+```
+
+# Footnotes
 
 What is this?
 -------------
