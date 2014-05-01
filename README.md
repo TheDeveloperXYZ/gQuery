@@ -86,6 +86,32 @@ myElement.click(function() {
 });
 ```
 
+### AJAX
+
+```javascript
+// Get JSON file
+$.ajax({url: "example.json", onsuccess: jsonSuccessFunction, onerror: ajaxError });
+
+// Get HTML file
+$.ajax({url: "example.html", onsuccess: htmlSuccess, onerror: ajaxError });
+
+// Post
+$.ajax({url: "target.php", type: "POST", data: {user: "Indloon", password: "DidyoureallyathinkIwouldtypemypasswordhere?"}, onsuccess: jsonSuccessFunction, onerror: ajaxError });
+
+// Functions used in ajax query.
+var htmlSuccess = function() {
+   // Do something
+};
+
+var jsonSuccessFunction = function() {
+   // Do something
+};
+
+var ajaxError = function() {
+   // Do something
+};
+```
+
 # Footnotes
 
 What is this?
