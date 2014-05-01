@@ -39,8 +39,29 @@
             }
             
             return original;
+        },
+        
+        // http://stackoverflow.com/questions/7949752/cross-browser-javascript-xml-parsing
+        parseXML: function (xmlString)
+        {
+            if (typeof window.DOMParser != "undefined")
+            {
+                return (new window.DOMParser()).parseFromString(xmlString, "text/xml");
+            }
+            else if (typeof window.ActiveXObject != "undefined" && new window.ActiveXObject("Microsoft.XMLDOM")) 
+            {
+                var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
+                xmlDoc.async = "false";
+                xmlDoc.loadXML(xmlString);
+                return xmlDoc;
+            }
+            else
+            {
+                throw new Error("No XML parser found.");
+            }
         }
     };
+    
     var gQuery = function (selector)
     {
         return new gQuery.func.initialize(selector);
@@ -55,6 +76,7 @@
         */
         initialize: function (selector)
         {
+            // If querySelector is supported then we consider it as "modern" browser.
             if ("querySelector" in document)
             {
                 try
@@ -469,6 +491,10 @@
             contentTypes = 
             {
                 "application/json": "json",
+                "application/x-javascript": "javascript",
+                "text/javascript": "javascript",
+                "text/css": "css",
+                "text/xml": "xml",
                 "text/html": "html",
                 "text/plain": "text"
             };
@@ -549,6 +575,10 @@
                         if (dataType === "json")
                         {
                             result = JSON.parse(result);
+                        } 
+                        else if (dataType === "xml")
+                        {
+                            result = utilities.parseXML(result);
                         }
                         
                         success(result, client, settings);
