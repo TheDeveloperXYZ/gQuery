@@ -30,10 +30,10 @@
             }
         },
         
-        mergeObjects: function( original, updates ) 
+        mergeObjects: function (original, updates) 
         {
             // Search for faster way.
-            for( var key in updates ) 
+            for (var key in updates) 
             {
                 original[key] = updates[key];
             }
