@@ -83,7 +83,7 @@
                 {
                     if (!selector)
                     {
-                        throw "ERROR: Invalid selector.";
+                        throw new Error("ERROR: Invalid selector.");
                     }
                     else if (!!selector.nodeType && (selector.nodeType === 1 || selector.nodeType === 9))
                     {
@@ -95,14 +95,14 @@
                     }
                     else
                     {
-                        throw "ERROR: Unable to query selector.";
+                        throw new Error("ERROR: Unable to query selector.");
                     }
 
                     this.length = this.els.length;
 
                     if (this.length === 0)
                     {
-                        throw "ERROR: No elements found with that selector.";
+                        throw new Error("ERROR: No elements found with that selector.");
                     }
 
                     return this;
@@ -114,7 +114,7 @@
             }
             else
             {
-                throw "ERROR: Not modern browser.";
+                throw new Error("ERROR: Not modern browser.");
             }
         },
 
@@ -587,7 +587,7 @@
                     } 
                     catch (e)
                     {
-                    
+                        throw e;
                     }
                 }
                 else 
