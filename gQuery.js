@@ -462,7 +462,133 @@
             this.on("click", callback);
         }
     };
+    
+    gQuery.ajax = function( settings )
+    {
+        var client = new XMLHttpRequest(),
+            contentTypes = 
+            {
+                "application/json": "json",
+                "text/html": "html",
+                "text/plain": "text"
+            };
+        
+        if( !client )
+        {
+            return;
+        }
+            
+        function defaultSettings() 
+        {
+            return {
+                url: "",
+                cache: true,
+                data: {},
+                headers: {},
+                context: null,
+                type: "GET",
+                timeout: 0,
+                onsuccess: function () {},
+                onerror: function () {},
+                oncomplete: function () {},
+                ontimeout: function () {}
+            }
+        }
 
+        settings = utilities.mergeObjects( defaultSettings(), settings || {} );
+ 
+        var complete = function(status, client, settings)
+        {
+            settings.oncomplete.call(settings.context, client, status);
+        };
+        
+        var success = function(data, client, settings)
+        {
+            settings.onsuccess.call(settings.context, data, "success", client);
+            complete("success", client, settings);
+        };
+        
+        var error = function(error, type, client, settings) 
+        {
+            settings.onerror.call(settings.context, client, type, error);
+            complete(type, client, settings);
+        };
+        
+        var timeout = function(type, client, settings)
+        {
+            settings.ontimeout.call(settings.context, client, type);
+            complete(type, client, settings);
+        };
+        
+        if (settings.timeout > 0) 
+        {
+            client.timeout = parseInt(settings.timeout);
+            
+            client.ontimeout = timeout;
+        }
+
+        client.addEventListener("readystatechange", function() 
+        {
+            if (client.readyState === 4) 
+            {
+                var result,
+                    dataType;
+                
+                if (client.status >= 200 && client.status < 400)
+                {
+                    var contentType = client.getResponseHeader("content-type");
+                    
+                    dataType = contentTypes[contentType] || "text";
+                    
+                    result = client.responseText;
+                    
+                    console.log( result );
+                    
+                    try
+                    {
+                        if (dataType === "json")
+                        {
+                            result = JSON.parse(result);
+                        }
+                        
+                        success(result, client, settings);
+                        
+                        return;
+                    } 
+                    catch (e)
+                    {
+                    
+                    }
+                }
+                else 
+                {
+                    error(null, "error", client, settings);
+                    
+                    return;
+                }
+            }
+        }, false);
+
+        client.open(settings.type, settings.url);
+        
+        if (settings.type === "POST")
+        {
+            settings.headers = utilities.mergeObjects(settings.headers, {
+                "X-Requested-With": "XMLHttpRequest",
+                "Content-type": "application/x-www-form-urlencoded"
+            });
+        }
+        
+        for (var key in settings.headers)
+        {
+            client.setRequestHeader(key, settings.headers[key]);
+        }
+        
+        client.send(settings.data);
+        
+        return this;
+    };
+    
     gQuery.func.initialize.prototype = gQuery.func;
 
     global.gQuery = gQuery;
