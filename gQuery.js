@@ -88,23 +88,6 @@
         */
         initialize: function (selector)
         {
-            function isModernBrowser () 
-            {
-                try
-                {
-                    if ("querySelector" in document)
-                    {
-                        return true;
-                    }
-                    
-                    return false;
-                }
-                catch (e)
-                {
-                    throw e;
-                }
-            }
-            
             // If querySelector is supported then we consider it as "modern" browser.
             if ("querySelector" in document)
             {
@@ -220,20 +203,6 @@
             }
             
         },
-        /*
-        hasClass: function (className)
-        {
-            if (utilities.isString(className))
-            className = className.trim();
-
-            var result = this.each(function ()
-            {
-                return new RegExp(className)
-                    .test(this.className);
-            });
-
-            return ((result + this.length) > 0);
-        },*/
 
         /*
         @function addClass - Adds the specified class(es) to each of the set of matched elements.
