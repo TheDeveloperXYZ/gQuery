@@ -146,7 +146,7 @@
             var elements = this.els,
                 count = 0;
 
-            for (var i = 0, len = elements.length; i < len; i++)
+            /*for (var i = 0, len = elements.length; i < len; i++)
             {
                 try 
                 {
@@ -156,7 +156,11 @@
                 {
                     throw e;
                 }
-            }
+            }*/
+            
+            elements.forEach(function(){
+                (functionToCall.call(elements[i], i) === false) ? count-- : count++;
+            });
 
             return count;
         },
