@@ -618,39 +618,46 @@
         {
             if (client.readyState === 4) 
             {
-                var result;
-                
-                if (client.status >= 200 && client.status < 400 || client.status == 304)
+                try 
                 {
-                    var contentType = client.getResponseHeader("content-type");
+                    var result;
+                
+                    if (client.status >= 200 && client.status < 400 || client.status == 304)
+                    {
+                        var contentType = client.getResponseHeader("content-type");
                     
-                    result = client.responseText;
+                        result = client.responseText;
 
-                    try
+                        try
+                        {
+                            if (contentType && contentType.match(/json/))
+                            {
+                                result = JSON.parse(result);
+                            }
+                            else if (contentType && contentType.match(/xml/))
+                            {
+                                result = utilities.parseXML(result);
+                            }
+                        
+                            success(result, client, settings);
+                        
+                            return;
+                        } 
+                        catch (e)
+                        {
+                            throw e;
+                        }
+                    }
+                    else 
                     {
-                        if (contentType && contentType.match(/json/))
-                        {
-                            result = JSON.parse(result);
-                        }
-                        else if (contentType && contentType.match(/xml/))
-                        {
-                            result = utilities.parseXML(result);
-                        }
-                        
-                        success(result, client, settings);
-                        
+                        error(null, "error", client, settings);
+                    
                         return;
-                    } 
-                    catch (e)
-                    {
-                        throw e;
                     }
                 }
-                else 
+                catch (e)
                 {
-                    error(null, "error", client, settings);
-                    
-                    return;
+                    throw e;
                 }
             }
         }, false);
