@@ -146,7 +146,7 @@
             var elements = this.els,
                 count = 0;
 
-            /*for (var i = 0, len = elements.length; i < len; i++)
+            for (var i = 0, len = elements.length; i < len; i++)
             {
                 try 
                 {
@@ -156,15 +156,24 @@
                 {
                     throw e;
                 }
-            }*/
+            }/*
 
             elements.forEach(function(i){
                 (functionToCall.call(elements[i], i) === false) ? count-- : count++;
-            });
+            });*/
 
             return count;
         },
 
+        getAttribute: function (attribute)
+        {
+            this.each(function ()
+            {
+                return this.getAttribute(attribute);
+            });
+            
+            return this;
+        }
         /*
         @function hasClass - Determine whether any of the matched elements are assigned the given class.
         @param {String} className - The class name to search for.
