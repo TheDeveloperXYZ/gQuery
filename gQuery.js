@@ -92,7 +92,12 @@
             {
                 try
                 {
-                    ("querySelector" in document ? true : false)
+                    if ("querySelector" in document)
+                    {
+                        return true;
+                    }
+                    
+                    return false;
                 }
                 catch (e)
                 {
