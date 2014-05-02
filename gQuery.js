@@ -90,14 +90,14 @@
         {
             function isModernBrowser () 
             {
-                if ("querySelector" in document) 
+                try
                 {
-                    return true;
-                } 
-                else 
+                    ("querySelector" in document ? true : false)
+                }
+                catch (e)
                 {
-                    return false;
-               }
+                    throw e;
+                }
             }
             
             // If querySelector is supported then we consider it as "modern" browser.
@@ -160,7 +160,14 @@
 
             for (var i = 0, len = elements.length; i < len; i++)
             {
-                (functionToCall.call(elements[i], i) === false) ? count-- : count++;
+                try 
+                {
+                    (functionToCall.call(elements[i], i) === false) ? count-- : count++;
+                }
+                catch (e)
+                {
+                    throw e;
+                }
             }
 
             return count;
@@ -182,10 +189,17 @@
                 {
                     for (var i = 0; i < classNames.length; i++)
                     {
-                        if (new RegExp(classNames[i])
-                            .test(this.className))
+                        try 
                         {
-                            count++;
+                            if (new RegExp(classNames[i])
+                                .test(this.className))
+                            {
+                                count++;
+                            }
+                        }
+                        catch (e)
+                        {
+                            throw e;
                         }
                     }
                 });
@@ -233,16 +247,23 @@
             {
                 for (var i = 0; i < classesSplit.length; i++)
                 {
-                    if (this.classList)
+                    try 
                     {
-                        this.classList.add(classesSplit[i]);
-                    }
-                    else
-                    {
-                        if (!this.hasClass(classesSplit[i]))
+                        if (this.classList)
                         {
-                            this.className += (" " + classesSplit[i]);
+                            this.classList.add(classesSplit[i]);
                         }
+                        else
+                        {
+                            if (!this.hasClass(classesSplit[i]))
+                            {
+                                this.className += (" " + classesSplit[i]);
+                            }
+                        }
+                    }
+                    catch (e)
+                    {
+                        throw e;
                     }
                 }
             });
@@ -267,23 +288,30 @@
             {
                 for (var i = 0; i < classesSplit.length; i++)
                 {
-                    if (this.classList)
+                    try
                     {
-                        this.classList.remove(classesSplit[i]);
-                    }
-                    else
-                    {
-                        if (this.hasClass(classesSplit[i]))
+                        if (this.classList)
                         {
-                            var newClass = " " + this.className.replace(/[\t\r\n]/g, " ") + " ";
-
-                            while (newClass.indexOf(" " + classesSplit[i] + " ") >= 0)
-                            {
-                                newClass = newClass.replace(" " + classesSplit[i] + " ", " ");
-                            }
-
-                            this.className = nnewClass.replace(/^\s+|\s+$/g, " ");
+                            this.classList.remove(classesSplit[i]);
                         }
+                        else
+                        {
+                            if (this.hasClass(classesSplit[i]))
+                            {
+                                var newClass = " " + this.className.replace(/[\t\r\n]/g, " ") + " ";
+
+                                while (newClass.indexOf(" " + classesSplit[i] + " ") >= 0)
+                                {
+                                    newClass = newClass.replace(" " + classesSplit[i] + " ", " ");
+                                }
+
+                                this.className = nnewClass.replace(/^\s+|\s+$/g, " ");
+                            }
+                        }
+                    }
+                    catch (e)
+                    {
+                        throw e;
                     }
                 }
             });
