@@ -1,6 +1,8 @@
 (function (global)
 {
     "use strict";
+    
+    var DEBUG = true;
 
     var utilities = {
         // High performance function check - http://jsperf.com/alternative-isfunction-implementations
@@ -131,7 +133,14 @@
                 }
                 catch (e)
                 {
-                    throw e;
+                    if (DEBUG)
+                    {
+                        throw e;
+                    }
+                    else
+                    {
+                        return undefined;
+                    }
                 }
             }
             else
