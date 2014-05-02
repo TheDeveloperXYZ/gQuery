@@ -164,7 +164,7 @@
 
             return count;
         },
-
+/*
         getAttribute: function (attribute)
         {
             this.each(function ()
@@ -173,7 +173,8 @@
             });
             
             return this;
-        }
+        },*/
+        
         /*
         @function hasClass - Determine whether any of the matched elements are assigned the given class.
         @param {String} className - The class name to search for.
