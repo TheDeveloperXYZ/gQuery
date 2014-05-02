@@ -106,7 +106,7 @@
             }
             
             // If querySelector is supported then we consider it as "modern" browser.
-            if (isModernBrowser())
+            if ("querySelector" in document)
             {
                 try
                 {
