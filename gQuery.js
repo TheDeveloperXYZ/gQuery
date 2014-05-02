@@ -73,7 +73,7 @@
             }
         }
     };
-    
+
     var gQuery = function (selector)
     {
         return new gQuery.func.initialize(selector);
@@ -586,34 +586,25 @@
                 timeout: 0,
                 onsuccess: function () {},
                 onerror: function () {},
-                oncomplete: function () {},
                 ontimeout: function () {}
             }
         }
 
         settings = utilities.mergeObjects( defaultSettings(), settings || {} );
- 
-        var complete = function(status, client, settings)
-        {
-            settings.oncomplete.call(settings.context, client, status);
-        };
         
         var success = function(data, client, settings)
         {
             settings.onsuccess.call(settings.context, data, "success", client);
-            complete("success", client, settings);
         };
         
         var error = function(error, type, client, settings) 
         {
             settings.onerror.call(settings.context, client, type, error);
-            complete(type, client, settings);
         };
         
         var timeout = function(type, client, settings)
         {
             settings.ontimeout.call(settings.context, client, type);
-            complete(type, client, settings);
         };
         
         if (settings.timeout > 0) 
@@ -629,7 +620,7 @@
             {
                 var result;
                 
-                if (client.status >= 200 && client.status < 400)
+                if (client.status >= 200 && client.status < 400 || client.status == 304)
                 {
                     var contentType = client.getResponseHeader("content-type");
                     
