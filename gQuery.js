@@ -330,7 +330,7 @@
         */
         toggleClass: function (className)
         {
-            if (!utilities.isString(classNames))
+            if (!utilities.isString(className))
             {
                 return;
             }
