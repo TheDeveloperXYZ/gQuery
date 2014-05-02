@@ -157,8 +157,8 @@
                     throw e;
                 }
             }*/
-            
-            elements.forEach(function(){
+
+            elements.forEach(function(i){
                 (functionToCall.call(elements[i], i) === false) ? count-- : count++;
             });
 
