@@ -9,6 +9,16 @@
             return !!(functionToCheck && functionToCheck.constructor && functionToCheck.call && functionToCheck.apply);
         },
 
+        isString: function (stringToCheck)
+        {
+            if (!stringToCheck)
+            {
+                return false;
+            }
+            
+            return (typeof stringToCheck === "string");
+        },
+        
         argumentsCallback: function (args, invoke)
         {
             var lastArgument = args[args.length - 1];
@@ -76,8 +86,20 @@
         */
         initialize: function (selector)
         {
+            function isModernBrowser () 
+            {
+                if ("querySelector" in document) 
+                {
+                    return true;
+                } 
+                else 
+                {
+                    return false;
+               }
+            }
+            
             // If querySelector is supported then we consider it as "modern" browser.
-            if ("querySelector" in document)
+            if (isModernBrowser())
             {
                 try
                 {
@@ -139,8 +161,41 @@
         @function hasClass - Determine whether any of the matched elements are assigned the given class.
         @param {String} className - The class name to search for.
         */
+        hasClass: function (classNames)
+        {
+            if (utilities.isString(classNames))
+            {
+                var count = 0;
+                
+                classNames = classNames.split(" ");
+                
+                this.each(function ()
+                {
+                    for (var i = 0; i < classNames.length; i++)
+                    {
+                        if (new RegExp(classNames[i])
+                            .test(this.className))
+                        {
+                            count++;
+                        }
+                    }
+                });
+                
+                if (count == classNames.length )
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            
+        },
+        /*
         hasClass: function (className)
         {
+            if (utilities.isString(className))
             className = className.trim();
 
             var result = this.each(function ()
@@ -150,7 +205,7 @@
             });
 
             return ((result + this.length) > 0);
-        },
+        },*/
 
         /*
         @function addClass - Adds the specified class(es) to each of the set of matched elements.
@@ -158,7 +213,7 @@
         */
         addClass: function (classNames)
         {
-            if (!classNames)
+            if (!utilities.isString(classNames))
             {
                 return;
             }
@@ -192,7 +247,7 @@
         */
         removeClass: function (classNames)
         {
-            if (!classNames)
+            if (!utilities.isString(classNames))
             {
                 return;
             }
@@ -233,7 +288,7 @@
         */
         toggleClass: function (className)
         {
-            if (!className)
+            if (!utilities.isString(classNames))
             {
                 return;
             }
@@ -350,7 +405,7 @@
         */
         attr: function (attributeName, value)
         {
-            if (!value)
+            if (!utilities.isString(value))
             {
                 return this.els[0].getAttribute(attributeName);
             }
@@ -371,7 +426,7 @@
         */
         html: function (html)
         {
-            if (typeof html === "string")
+            if (utilities.isString(html))
             {
                 this.each(function ()
                 {
@@ -392,7 +447,7 @@
         */
         text: function (text)
         {
-            if (typeof text === "string")
+            if (utilities.isString(text))
             {
                 this.each(function ()
                 {
